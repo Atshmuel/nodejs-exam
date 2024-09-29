@@ -1,0 +1,101 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+a{
+    text-decoration: none;
+    color: #fff;
+}
+
+button{
+border: 2px solid #87A2FF;
+color: #fff;
+background: none;
+outline: none;
+box-shadow: none;
+padding: .2rem 1rem;
+border-radius: 7px;
+transition: all .3s ease-in;
+cursor: pointer;
+}
+button:hover{
+    scale: 1.05;
+}
+body{
+    font-size: 1.3rem;
+position: relative;
+    padding: 3rem;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    background-color: hsl(216, 10%, 19%);
+    color: #fff;
+}
+
+.main{
+    width: fit-content;
+    margin: 0 auto;
+    text-align: center;
+}
+.main h1{
+    margin-bottom: 2rem;
+}
+
+.title{
+    margin-bottom: 2rem;
+}
+#actions{
+    width: fit-content;
+    margin: 0 auto;
+}
+.modal-container{
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    backdrop-filter: blur(4px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal{
+    width: 30rem;
+    height: 30rem;
+    border-radius: 10px;
+    background-color: #c2c7d98d  ;
+    z-index: 20;
+    position: relative;
+    text-align: center;
+    padding: 3rem 0;
+}
+.modal:hover > .close-modal{
+    display: block;
+}
+.close-modal{
+    cursor: pointer;
+    display: none;
+    position: absolute;
+    top: -.4rem;
+    left: -.4rem;
+    background-color: #c2c7d9;
+    border-radius: 50%;
+    width: 1.6rem;
+    height: 1.6rem;
+    text-align: center;
+}
+
+table{
+    margin: 3rem auto;
+    text-align: center;
+}
+
+ td{
+    padding: 2rem;
+    border: 1px solid #fff;
+
+}
