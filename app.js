@@ -23,7 +23,6 @@ const visits = []
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, "public", "main.html"))
-
 })
 app.get('/manager', (req, res) => {
     res.sendFile(path.join(__dirname, "public", "manager.html"))

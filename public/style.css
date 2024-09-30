@@ -59,9 +59,13 @@ position: relative;
     position: absolute;
     top: 0;
     left: 0;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
+}
+
+.active{
+    display: flex;
 }
 .modal{
     width: 30rem;
@@ -72,6 +76,7 @@ position: relative;
     text-align: center;
     padding: 3rem 0;
 }
+
 .modal:hover > .close-modal{
     display: block;
 }
