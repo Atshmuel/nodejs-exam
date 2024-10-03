@@ -110,14 +110,11 @@ const submitPoint = async () => {
         },
         body: JSON.stringify({ pointName: `${newPointInput.value}` })
     })
-    if (!res.ok) {
-        alert('Point name must be supplied !')
-        return
-    }
+    const data = await res.json()
     newPointInput.value = ""
     submitNewPointBtn.removeEventListener('click', submitPoint)
     modalContainer.style.display = "none"
-    alert("Point created successfully !")
+    alert(data.message)
     showPoints()
 
 }
@@ -130,7 +127,7 @@ const deletePoint = async (id) => {
 }
 
 const addUpdateListner = (id, name) => {
-    submitNewPointBtn.addEventListener('click', () => updatePoint(id, name))
+    submitNewPointBtn.addEventListener('click', update = () => updatePoint(id, name))
     modalContainer.style.display = 'flex'
 
 
@@ -144,7 +141,8 @@ const updatePoint = async (id, name) => {
         body: JSON.stringify({ prevName: name, newName: `${newPointInput.value}` })
     })
     const data = await res.json()
-    submitNewPointBtn.removeEventListener('click', () => updatePoint(id, name))
+    submitNewPointBtn.removeEventListener('click', update)
+    newPointInput.value = ""
     modalContainer.style.display = 'none'
     alert(data.message)
     showPoints()

@@ -42,7 +42,7 @@ app.post('/manager/point', (req, res) => {
     const pointName = req.body.pointName
     const point = { id: pointsCnt++, name: pointName }
     points.push(point)
-    res.status(200).json(points)
+    res.status(200).json({ message: `Point: ${pointName} created successfully` })
 })
 app.patch('/manager/point/:pointId', (req, res) => {
     const pointId = req.params.pointId
