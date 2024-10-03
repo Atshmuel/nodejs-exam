@@ -1,7 +1,3 @@
-
-// הנקודות ניתנות לניהול, כלומר התוכנה מאפשרת להוסיף, לערוך למחוק ולראות את רשימת כל הנקודות הקיימות
-// בנוסף, יש ליצור עמוד שמאפשר הזנת ביקור בנקודה, שבו בוחרים את הנקודה שביקרנו בה. זמן הביקור נשמר אוטומטית
-
 const bodyParser = require('body-parser')
 const express = require('express')
 const path = require('path')
@@ -74,7 +70,6 @@ app.delete('/manager/point/:pointId', (req, res) => {
 
     res.status(200).json({ message: "Deleted successfily !" })
 })
-
 app.post('/guard/visit/:pointId', (req, res) => {
     const pointId = req.params.pointId
     if (!pointId) {
