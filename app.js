@@ -64,9 +64,7 @@ app.delete('/manager/point/:pointId', (req, res) => {
         return res.status(400).json({ message: "Point id must be sent to the server to get the check-in" })
 
     }
-    const point = points.find(el =>
-        el.id === Number(pointId)
-    )
+    const point = points.findIndex(el => el.id === Number(pointId))
 
     const deletedPoint = points.splice(point, 1)
 
