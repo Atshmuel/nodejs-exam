@@ -35,10 +35,10 @@ const showPoints = async () => {
     }
     table.innerHTML = ""
     let rows = ""
-    data.forEach((el) => {
+    data.forEach((el, i) => {
         rows += `
                 <tr>
-                    <td>${el.id + 1}</td>
+                    <td>${i + 1}</td>
                     <td>${el.name}</td>
                     <td><button id="${el.id} ${el.name}" onclick="addUpdateListner(${el.id},'${el.name}')">Edit ✎</button></td>
                     <td><button onclick="deletePoint(${el.id})">Delete 🗑️</button></td>
@@ -48,7 +48,7 @@ const showPoints = async () => {
     const tableMarkup = `
             <thead>
                 <tr>
-                    <td>num</td>
+                    <td>s.num</td>
                     <td>point name</td>
                     <td>edit point</td>
                     <td>delete point</td>
@@ -120,8 +120,6 @@ const submitPoint = async () => {
 }
 
 const deletePoint = async (id) => {
-    console.log(id);
-
     const res = await fetch(`/manager/point/${id}`, { method: 'DELETE' })
     const data = await res.json()
     alert(data.message)
