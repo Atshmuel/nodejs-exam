@@ -8,18 +8,18 @@
     <script defer src="guard.js"></script>
 
 </head>
-<body>
+<body onload="fillOptions()">
     <div class="main">
         <div class="title">
-          <h1>Hey 'guard name'</h1>
-          <p>choose the groud point and submit to notify your manager that this point is secured</p>
+          <h1>Hey Amir</h1>
+          <p>Choose the check point and submit to notify your manager that this point is secured</p>
         </div>
         
         <div id="guard-selection">
             <select id="guard-point">
-                <option hidden value="">Choose Guard Point</option>
+                <option hidden value="">Choose Check Point</option>
             </select>
-            <button>Submit</button>
+            <button id="submit">Submit</button>
         </div>
       </div>
     </body>
