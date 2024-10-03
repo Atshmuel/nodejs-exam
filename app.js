@@ -36,16 +36,46 @@ app.get('/manager/visits', (req, res) => { res.status(200).json(visits) })
 
 app.post('/manager/point', (req, res) => {
     if (!req.body.pointName || req.body.pointName === "") {
-        res.status(400).json({ message: 'Point name must be supplied !' })
-        return
+        return res.status(400).json({ message: 'Point name must be supplied !' })
+
     }
     const pointName = req.body.pointName
     const point = { id: pointsCnt++, name: pointName }
     points.push(point)
     res.status(200).json(points)
 })
-// app.patch('/manager/point', (req, res) => { })
-// app.delete('/manager/point', (req, res) => { })
+app.patch('/manager/point/:pointId', (req, res) => {
+    const pointId = req.params.pointId
+    const prevName = req.body.prevName
+    const newName = req.body.newName
+    if (!pointId || !prevName || !newName) {
+        return res.status(400).json({ message: "Point id or Name must be sent to the server to update point" })
+    }
+    const index = points.findIndex(el => el.id === Number(pointId))
+    if (index === -1) {
+        return res.status(400).json({ message: 'Failed to find this point id' })
+    }
+    points[index].name = newName
+    res.status(200).json({ message: `Updated Point: ${prevName} to: ${newName} successfily !` })
+})
+app.delete('/manager/point/:pointId', (req, res) => {
+    const pointId = req.params.pointId
+    if (!pointId) {
+        return res.status(400).json({ message: "Point id must be sent to the server to get the check-in" })
+
+    }
+    const point = points.find(el =>
+        el.id === Number(pointId)
+    )
+
+    const deletedPoint = points.splice(point, 1)
+
+    if (!deletedPoint.length) {
+        return res.status(400).json({ message: "Could not find this point id." })
+    }
+
+    res.status(200).json({ message: "Deleted successfily !" })
+})
 
 app.post('/guard/visit/:pointId', (req, res) => {
     const pointId = req.params.pointId
@@ -55,8 +85,8 @@ app.post('/guard/visit/:pointId', (req, res) => {
     }
     const pointData = points.find(el => Number(el.id) === Number(pointId))
     if (!pointData) {
-        res.status(400).json({ message: "Could not find this point id." })
-        return
+        return res.status(400).json({ message: "Could not find this point id." })
+
     }
     const visit = { id: visitsCnt++, point: pointData, date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString() }
     visits.push(visit)

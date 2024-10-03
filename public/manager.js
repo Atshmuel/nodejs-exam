@@ -10,10 +10,14 @@ const newPointInput = document.getElementById('new-point-input')
 
 newPointBtn.addEventListener('click', () => {
     modalContainer.style.display = 'flex'
+    submitNewPointBtn.addEventListener('click', submitPoint)
+
 })
 
 modalClose.addEventListener('click', () => {
     modalContainer.style.display = 'none'
+    submitNewPointBtn.removeEventListener('click', submitPoint)
+
 })
 
 
@@ -26,6 +30,7 @@ const showPoints = async () => {
     const data = await res.json();
     if (!data.length) {
         alert("No points found, add some first.")
+        table.innerHTML = ""
         return
     }
     table.innerHTML = ""
@@ -33,17 +38,17 @@ const showPoints = async () => {
     data.forEach((el) => {
         rows += `
                 <tr>
-                    <td>${el.id}</td>
+                    <td>${el.id + 1}</td>
                     <td>${el.name}</td>
-                    <td><button onclick="console.log(${el.id})">✎</button></td>
-                    <td><button onclick="console.log(${el.id})">🗑️</button></td>
+                    <td><button id="${el.id} ${el.name}" onclick="addUpdateListner(${el.id},'${el.name}')">Edit ✎</button></td>
+                    <td><button onclick="deletePoint(${el.id})">Delete 🗑️</button></td>
                 </tr>
                 `
     })
     const tableMarkup = `
             <thead>
                 <tr>
-                    <td>point id</td>
+                    <td>num</td>
                     <td>point name</td>
                     <td>edit point</td>
                     <td>delete point</td>
@@ -73,7 +78,7 @@ const showVisits = async () => {
     data.forEach((el) => {
         rows += `
         <tr>
-        <td>${el.id}</td>
+        <td>${el.id + 1}</td>
         <td>${el.date}</td>
         <td>${el.time}</td>
         <td>${el.point.name}</td>
@@ -94,7 +99,6 @@ const showVisits = async () => {
                     ${rows}
             </tbody>
         `
-
     table.insertAdjacentHTML("beforeend", tableMarkup)
 }
 
@@ -110,13 +114,44 @@ const submitPoint = async () => {
         alert('Point name must be supplied !')
         return
     }
-    if (table.innerText !== "") showPoints()
-    alert("Point created successfully !")
     newPointInput.value = ""
+    submitNewPointBtn.removeEventListener('click', submitPoint)
+    modalContainer.style.display = "none"
+    alert("Point created successfully !")
+    showPoints()
 
 }
 
+const deletePoint = async (id) => {
+    const res = await fetch(`/manager/point/${id}`, { method: 'DELETE' })
+    const data = await res.json()
+    alert(data.message)
+    showPoints()
+}
+
+const addUpdateListner = (id, name) => {
+    submitNewPointBtn.addEventListener('click', () => updatePoint(id, name))
+    modalContainer.style.display = 'flex'
+
+
+}
+const updatePoint = async (id, name) => {
+    const res = await fetch(`http://localhost:3010/manager/point/${id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prevName: name, newName: `${newPointInput.value}` })
+    })
+    const data = await res.json()
+    submitNewPointBtn.removeEventListener('click', () => updatePoint(id, name))
+    modalContainer.style.display = 'none'
+    alert(data.message)
+    showPoints()
+
+}
+
+
 allPointsBtn.addEventListener('click', showPoints)
 checkPointsBtn.addEventListener('click', showVisits)
-submitNewPointBtn.addEventListener('click', submitPoint)
 
