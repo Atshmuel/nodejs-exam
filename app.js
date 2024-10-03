@@ -35,7 +35,7 @@ app.get('/manager/points', (req, res) => { res.status(200).json(points) })
 app.get('/manager/visits', (req, res) => { res.status(200).json(visits) })
 
 app.post('/manager/point', (req, res) => {
-    if (!req.body.pointName) {
+    if (!req.body.pointName || req.body.pointName === "") {
         res.status(400).json({ message: 'Point name must be supplied !' })
         return
     }
@@ -43,7 +43,6 @@ app.post('/manager/point', (req, res) => {
     const point = { id: pointsCnt++, name: pointName }
     points.push(point)
     res.status(200).json(points)
-
 })
 // app.patch('/manager/point', (req, res) => { })
 // app.delete('/manager/point', (req, res) => { })
@@ -59,7 +58,7 @@ app.post('/guard/visit/:pointId', (req, res) => {
         res.status(400).json({ message: "Could not find this point id." })
         return
     }
-    const visit = { id: visitsCnt++, point: pointData, date: new Date() }
+    const visit = { id: visitsCnt++, point: pointData, date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString() }
     visits.push(visit)
     res.status(200).json(visits)
 })
