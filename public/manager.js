@@ -7,16 +7,20 @@ const checkPointsBtn = document.getElementById('check-points')
 const table = document.getElementById('table')
 const submitNewPointBtn = document.getElementById('point-submit-btn')
 const newPointInput = document.getElementById('new-point-input')
+const actionBtn = document.createElement('button')
+
 
 newPointBtn.addEventListener('click', () => {
+    actionBtn.innerHTML = 'Submit'
+    actionBtn.onclick = submitPoint
+    modal.appendChild(actionBtn)
     modalContainer.style.display = 'flex'
-    submitNewPointBtn.addEventListener('click', submitPoint)
-
 })
 
 modalClose.addEventListener('click', () => {
     modalContainer.style.display = 'none'
-    submitNewPointBtn.removeEventListener('click', submitPoint)
+    newPointInput.value = ""
+    modal.removeChild(actionBtn)
 
 })
 
@@ -112,7 +116,7 @@ const submitPoint = async () => {
     })
     const data = await res.json()
     newPointInput.value = ""
-    submitNewPointBtn.removeEventListener('click', submitPoint)
+    modal.removeChild(actionBtn)
     modalContainer.style.display = "none"
     alert(data.message)
     showPoints()
@@ -127,7 +131,9 @@ const deletePoint = async (id) => {
 }
 
 const addUpdateListner = (id, name) => {
-    submitNewPointBtn.addEventListener('click', update = () => updatePoint(id, name))
+    actionBtn.innerHTML = 'Update'
+    actionBtn.onclick = () => updatePoint(id, name)
+    modal.appendChild(actionBtn)
     modalContainer.style.display = 'flex'
 
 
@@ -141,7 +147,7 @@ const updatePoint = async (id, name) => {
         body: JSON.stringify({ prevName: name, newName: `${newPointInput.value}` })
     })
     const data = await res.json()
-    submitNewPointBtn.removeEventListener('click', update)
+    modal.removeChild(actionBtn)
     newPointInput.value = ""
     modalContainer.style.display = 'none'
     alert(data.message)
