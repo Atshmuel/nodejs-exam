@@ -44,6 +44,7 @@ app.patch('/manager/point/:pointId', (req, res) => {
     const pointId = req.params.pointId
     const prevName = req.body.prevName
     const newName = req.body.newName
+
     if (!pointId || !prevName || !newName) {
         return res.status(400).json({ message: "Point id or Name must be sent to the server to update point" })
     }
@@ -52,6 +53,11 @@ app.patch('/manager/point/:pointId', (req, res) => {
         return res.status(400).json({ message: 'Failed to find this point id' })
     }
     points[index].name = newName
+    visits.forEach(visit => {
+        if (points[index].name === visit.name) {
+            visit.name = newName
+        }
+    })
     res.status(200).json({ message: `Updated Point: ${prevName} to: ${newName} successfily !` })
 })
 app.delete('/manager/point/:pointId', (req, res) => {

@@ -92,14 +92,18 @@ position: relative;
     height: 1.6rem;
     text-align: center;
 }
-
+.table-container{
+    margin: 2rem auto;
+    padding: 1rem;
+    height: 550px;
+    width: fit-content;
+    overflow-x: auto;
+}
 table{
-    margin: 3rem auto;
     text-align: center;
 }
 
  td{
     padding: 2rem;
     border: 1px solid #fff;
-
 }
