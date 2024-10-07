@@ -15,13 +15,22 @@ newPointBtn.addEventListener('click', () => {
     actionBtn.onclick = submitPoint
     modal.appendChild(actionBtn)
     modalContainer.style.display = 'flex'
-})
 
+})
+modal.addEventListener('click', (e) => {
+    e.stopPropagation();
+})
+modalContainer.addEventListener('click', (e) => {
+    if (e.target !== modal) {
+        modalContainer.style.display = 'none'
+        newPointInput.value = ""
+        modal.removeChild(actionBtn)
+    }
+})
 modalClose.addEventListener('click', () => {
     modalContainer.style.display = 'none'
     newPointInput.value = ""
     modal.removeChild(actionBtn)
-
 })
 
 
@@ -65,7 +74,6 @@ const showPoints = async () => {
 
     table.insertAdjacentHTML("beforeend", tableMarkup)
 }
-
 const showVisits = async () => {
     const res = await fetch('http://localhost:3010/manager/visits')
     if (!res.ok) {
@@ -105,7 +113,6 @@ const showVisits = async () => {
         `
     table.insertAdjacentHTML("beforeend", tableMarkup)
 }
-
 const submitPoint = async () => {
     const res = await fetch('http://localhost:3010/manager/point', {
         method: 'POST',
@@ -122,14 +129,12 @@ const submitPoint = async () => {
     showPoints()
 
 }
-
 const deletePoint = async (id) => {
     const res = await fetch(`/manager/point/${id}`, { method: 'DELETE' })
     const data = await res.json()
     alert(data.message)
     showPoints()
 }
-
 const addUpdateListner = (id, name) => {
     actionBtn.innerHTML = 'Update'
     actionBtn.onclick = () => updatePoint(id, name)
