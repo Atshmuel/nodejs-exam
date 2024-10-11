@@ -87,10 +87,10 @@ const showVisits = async () => {
     }
     table.innerHTML = ""
     let rows = ""
-    data.forEach((el) => {
+    data.forEach((el, i) => {
         rows += `
         <tr>
-        <td>${el.id + 1}</td>
+        <td>${i + 1}</td>
         <td>${el.date}</td>
         <td>${el.time}</td>
         <td>${el.point.name}</td>
@@ -101,7 +101,7 @@ const showVisits = async () => {
     const tableMarkup = `
             <thead>
                 <tr>
-                    <td>visit id</td>
+                    <td>#</td>
                     <td>visit date</td>
                     <td>visit time</td>
                     <td>point name</td>
@@ -126,6 +126,7 @@ const submitPoint = async () => {
     modal.removeChild(actionBtn)
     modalContainer.style.display = "none"
     alert(data.message)
+    if (!res.ok) return
     showPoints()
 
 }
