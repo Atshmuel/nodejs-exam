@@ -18,13 +18,13 @@ let visitsCnt = 0;
 const visits = []
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "main.html"))
+    res.status(200).sendFile(path.join(__dirname, "public", "main.html"))
 })
 app.get('/manager', (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "manager.html"))
+    res.status(200).sendFile(path.join(__dirname, "public", "manager.html"))
 })
 app.get('/guard', (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "guard.html"))
+    res.status(200).sendFile(path.join(__dirname, "public", "guard.html"))
 })
 app.get('/manager/points', (req, res) => { res.status(200).json(points) })
 
@@ -34,7 +34,6 @@ app.post('/manager/point', (req, res) => {
     //I could use regex to check if point name dose not contians any letters but didnt knew if its ok to use it.
     if (!req.body.pointName) {
         return res.status(400).json({ message: 'Point name must be supplied !' })
-
     }
     const pointName = req.body.pointName
     const point = { id: pointsCnt++, name: pointName }
@@ -49,6 +48,10 @@ app.patch('/manager/point/:pointId', (req, res) => {
     if (!pointId || !prevName || !newName) {
         return res.status(400).json({ message: "Point id or Name must be sent to the server to update point" })
     }
+    if (prevName === newName) {
+        return res.status(400).json({ message: "New name and old name must be different, try again" })
+    }
+    //could use find and change it directly but tought it will be nice to show another approach.
     const index = points.findIndex(el => el.id === Number(pointId))
     if (index === -1) {
         return res.status(400).json({ message: 'Failed to find this point id' })
@@ -83,7 +86,7 @@ app.post('/guard/visit/:pointId', (req, res) => {
         res.status(400).json({ message: "Point id must be sent to the server to get the check-in" })
         return
     }
-    const pointData = points.find(el => Number(el.id) === Number(pointId))
+    const pointData = points.find(el => el.id === Number(pointId))
     if (!pointData) {
         return res.status(400).json({ message: "Could not find this point id." })
 
@@ -91,4 +94,8 @@ app.post('/guard/visit/:pointId', (req, res) => {
     const visit = { id: visitsCnt++, point: pointData, date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString() }
     visits.push(visit)
     res.status(200).json(visits)
+})
+
+app.get('*', (req, res) => {
+    res.status(404).sendFile(path.join(__dirname, "public", "error.html"))
 })
