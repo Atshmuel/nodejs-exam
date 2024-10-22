@@ -32,7 +32,7 @@ app.get('/manager/visits', (req, res) => { res.status(200).json(visits) })
 
 app.post('/manager/point', (req, res) => {
     //I could use regex to check if point name dose not contians any letters but didnt knew if its ok to use it.
-    if (!req.body.pointName) {
+    if (!req.body.pointName || req.body.pointName.trim() === "") {
         return res.status(400).json({ message: 'Point name must be supplied !' })
     }
     const pointName = req.body.pointName
@@ -45,7 +45,7 @@ app.patch('/manager/point/:pointId', (req, res) => {
     const prevName = req.body.prevName
     const newName = req.body.newName
     //I could use regex to check if point name dose not contians any letters but didnt knew if its ok to use it.
-    if (!pointId || !prevName || !newName) {
+    if (newName.value.trim() === "" || !newName.value || !pointId || !prevName) {
         return res.status(400).json({ message: "Point id or Name must be sent to the server to update point" })
     }
     if (prevName === newName) {
